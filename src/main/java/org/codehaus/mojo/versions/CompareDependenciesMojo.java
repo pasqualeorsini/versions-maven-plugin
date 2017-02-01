@@ -23,6 +23,9 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.project.ProjectBuildingException;
@@ -46,11 +49,9 @@ import java.util.Map;
  * project. Can optionally update locally the project instead of reporting the comparison
  *
  * @author Paul Gier
- * @goal compare-dependencies
- * @requiresProject true
- * @requiresDirectInvocation true
  * @since 1.3
  */
+@Mojo(name = "compare-dependencies", requiresDirectInvocation = true)
 public class CompareDependenciesMojo
     extends AbstractVersionsDependencyUpdaterMojo
 {
@@ -66,59 +67,59 @@ public class CompareDependenciesMojo
      * The groupId, artifactId, and version of the remote project (POM) to which we are comparing. This should be in the
      * form "groupId:artifactId:version"
      *
-     * @parameter property="remotePom"
      * @required true
      */
+    @Parameter(property = "remotePom")
     protected String remotePom;
 
     /**
      * Ignore the list of remote dependencies and only compare the remote dependencyManagement
      *
-     * @parameter property="ignoreRemoteDependencies" default-value="false"
      */
+    @Parameter(property = "ignoreRemoteDependencies", defaultValue = "false")
     protected boolean ignoreRemoteDependencies;
 
     /**
      * Ignore the remote dependency management and only check against the actual dependencies of the remote project
      *
-     * @parameter property="ignoreRemoteDependencyManagement" default-value="false"
      */
+    @Parameter(property = "ignoreRemoteDependencyManagement", defaultValue = "false")
     protected boolean ignoreRemoteDependencyManagement;
 
     /**
      * Update dependency versions in the current POM.
      *
-     * @parameter property="updateDependencies" default-value="false"
      */
+    @Parameter(property = "updateDependencies", defaultValue = "false")
     protected boolean updateDependencies;
 
     /**
      * Update dependency versions stored in properties
      *
-     * @parameter property="updatePropertyVersions" default-value="false"
      */
+    @Parameter(property = "updatePropertyVersions",defaultValue = "false")
     protected boolean updatePropertyVersions;
 
     /**
      * Display the dependency version differences on the command line, but do not update the versions in the current
      * pom. If updateDependencies is set to "true" this will automatically be set to false.
      *
-     * @parameter property="reportMode" default-value="true"
      */
+    @Parameter(property = "reportMode", defaultValue = "true")
     protected boolean reportMode;
 
     /**
      * If the output file is set, the diff report will be written to this file.
      *
-     * @parameter property="reportOutputFile"
      */
+    @Parameter(property = "reportOutputFile")
     protected File reportOutputFile;
 
     /**
      * The project builder used to initialize the remote project.
      *
-     * @component
      */
+    @Component
     protected MavenProjectBuilder mavenProjectBuilder;
 
     // ------------------------------ METHODS --------------------------

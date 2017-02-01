@@ -33,6 +33,8 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.project.path.PathTranslator;
@@ -69,113 +71,103 @@ public abstract class AbstractVersionsUpdaterMojo
     /**
      * The Maven Project.
      *
-     * @parameter property="project"
-     * @required
-     * @readonly
      * @since 1.0-alpha-1
      */
+    @Parameter(property = "project", required = true, readonly = true)
     protected MavenProject project;
 
     /**
-     * @component
      * @since 1.0-alpha-1
      */
+    @Component
     protected org.apache.maven.artifact.factory.ArtifactFactory artifactFactory;
 
     /**
-     * @component
      * @since 1.0-alpha-1
      */
+    @Component
     protected org.apache.maven.artifact.resolver.ArtifactResolver resolver;
 
     /**
-     * @component allo
      * @since 1.0-alpha-1
      */
+    @Component(hint = "allo")
     protected MavenProjectBuilder projectBuilder;
 
     /**
-     * @parameter property="reactorProjects"
-     * @required
-     * @readonly
      * @since 1.0-alpha-1
      */
+    @Parameter(property = "reactorProjects", required = true, readonly = true)
     protected List reactorProjects;
 
     /**
      * The artifact metadata source to use.
      *
-     * @component
-     * @required
-     * @readonly
      * @since 1.0-alpha-1
      */
+    @Component
     protected ArtifactMetadataSource artifactMetadataSource;
 
     /**
-     * @parameter property="project.remoteArtifactRepositories"
-     * @readonly
      * @since 1.0-alpha-3
      */
+    @Parameter(property = "project.remoteArtifactRepositories", readonly = true)
     protected List remoteArtifactRepositories;
 
     /**
-     * @parameter property="project.pluginArtifactRepositories"
-     * @readonly
      * @since 1.0-alpha-3
      */
+    @Parameter(property = "project.pluginArtifactRepositories", readonly = true)
     protected List remotePluginRepositories;
 
     /**
-     * @parameter property="localRepository"
-     * @readonly
      * @since 1.0-alpha-1
      */
+    @Parameter(property = "localRepository", readonly = true)
     protected ArtifactRepository localRepository;
 
     /**
-     * @component
      * @since 1.0-alpha-3
      */
+    @Component
     private WagonManager wagonManager;
 
     /**
-     * @parameter property="settings"
-     * @readonly
      * @since 1.0-alpha-3
      */
+    @Parameter(property = "settings", readonly = true)
     protected Settings settings;
 
     /**
      * settings.xml's server id for the URL. This is used when wagon needs extra authentication information.
      *
-     * @parameter property="maven.version.rules.serverId" default-value="serverId";
      * @since 1.0-alpha-3
      */
+    @Parameter(property = "maven.version.rules.serverId", defaultValue = "serverId")
     private String serverId;
 
     /**
      * The Wagon URI of a ruleSet file containing the rules that control how to compare version numbers.
      *
-     * @parameter property="maven.version.rules"
      * @since 1.0-alpha-3
      */
+    @Parameter(property = "maven.version.rules")
     private String rulesUri;
 
     /**
      * Controls whether a backup pom should be created.
      *
-     * @parameter property="generateBackupPoms" default-value="true"
      * @since 1.0-alpha-3
      */
+    @Parameter(property = "generateBackupPoms", defaultValue = "true")
     private Boolean generateBackupPoms;
 
     /**
      * Whether to allow snapshots when searching for the latest version of an artifact.
      *
-     * @parameter property="allowSnapshots" default-value="false"
      * @since 1.0-alpha-1
      */
+    @Parameter(property = "allowSnapshots", defaultValue = "false")
     protected Boolean allowSnapshots;
 
     /**
@@ -186,21 +178,15 @@ public abstract class AbstractVersionsUpdaterMojo
     /**
      * The Maven Session.
      *
-     * @parameter property="session"
-     * @required
-     * @readonly
      * @since 1.0-alpha-1
      */
+    @Parameter(property = "session", readonly = true, required = true)
     protected MavenSession session;
 
-    /**
-     * @component
-     */
+    @Component
     protected PathTranslator pathTranslator;
 
-    /**
-     * @component
-     */
+    @Component
     protected ArtifactResolver artifactResolver;
 
     // --------------------- GETTER / SETTER METHODS ---------------------
